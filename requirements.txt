@@ -1,0 +1,6 @@
+streamlit
+gspread
+google-auth
+anthropic
+requests
+pandas

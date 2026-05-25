@@ -347,19 +347,21 @@ if run_btn:
         use_container_width=True
     )
 
-    # 이메일 자동 발송
+    # 이메일 수동 발송
     st.divider()
-    if recipient_email and gmail_sender and gmail_app_pw:
-        with st.spinner(f"이메일을 {recipient_email} 으로 발송 중..."):
-            try:
-                send_result_email(gmail_sender, gmail_app_pw, recipient_email, results_by_category, result_df)
-                st.success(f"결과 이메일을 {recipient_email} 으로 발송했습니다.", icon="x1F4EC")
-            except Exception as e:
-                st.error(f"이메일 발송 실패: {e}")
-    elif recipient_email:
-        st.warning("Gmail 발신 주소 또는 앱 비밀번호가 입력되지 않아 이메일을 발송하지 않았습니다.")
+    st.subheader("📧 결과 이메일 발송")
+    if not recipient_email:
+        st.info("사이드바에서 수신자 이메일을 입력하면 발송 버튼이 활성화됩니다.")
+    elif not gmail_sender or not gmail_app_pw:
+        st.warning("Gmail 발신 주소 또는 앱 비밀번호가 입력되지 않았습니다.")
     else:
-        st.info("수신자 이메일을 입력하면 검증 완료 후 자동으로 결과를 발송합니다.")
+        if st.button("📤 이메일 보내기", type="primary", use_container_width=True):
+            with st.spinner(f"{recipient_email} 으로 발송 중..."):
+                try:
+                    send_result_email(gmail_sender, gmail_app_pw, recipient_email, results_by_category, result_df)
+                    st.success(f"결과 이메일을 {recipient_email} 으로 발송했습니다!", icon="📬")
+                except Exception as e:
+                    st.error(f"이메일 발송 실패: {e}")
 
 else:
     st.info("사이드바에서 검증 시작 버튼을 클릭하세요.")

@@ -293,6 +293,20 @@ if run_btn:
         log_area.code("\n".join(log_lines), language=None)
 
     progress.progress(100, text="검증 완료")
+
+    # 결과를 session_state에 저장
+    result_df = pd.DataFrame(all_rows).reindex(
+        columns=["merchant_full_name", "category", "location_match", "date_match", "offer_match", "reason"]
+    )
+    result_df.columns = ["머천트", "결과", "위치 일치", "날짜 일치", "오퍼 일치", "사유"]
+    st.session_state["results_by_category"] = results_by_category
+    st.session_state["result_df"] = result_df
+
+# 결과가 있으면 항상 표시
+if "results_by_category" in st.session_state and "result_df" in st.session_state:
+    results_by_category = st.session_state["results_by_category"]
+    result_df = st.session_state["result_df"]
+
     st.divider()
     st.subheader("검증 결과 요약")
     col1, col2, col3, col4 = st.columns(4)
@@ -334,10 +348,6 @@ if run_btn:
                 st.divider()
 
     st.subheader("전체 결과 내보내기")
-    result_df = pd.DataFrame(all_rows).reindex(
-        columns=["merchant_full_name", "category", "location_match", "date_match", "offer_match", "reason"]
-    )
-    result_df.columns = ["머천트", "결과", "위치 일치", "날짜 일치", "오퍼 일치", "사유"]
     st.dataframe(result_df, use_container_width=True)
     st.download_button(
         "CSV 다운로드",

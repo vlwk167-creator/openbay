@@ -36,7 +36,7 @@ with st.sidebar:
     spreadsheet_id = st.text_input("Spreadsheet ID", value="1_RiUa5TYgw60Y2wDjrif40HUsalGTv_6ZdNweDDLhqo")
     sheet_name = st.text_input("시트 이름", value="시트1")
     if _secrets_loaded:
-        st.success("Service Account & API Key 자동 로드됨", icon="x1F510")
+        st.success("Service Account & API Key 자동 로드됨", icon="🔐")
         service_account_json = _sa_json
         claude_api_key = _claude_key
     else:
@@ -47,7 +47,7 @@ with st.sidebar:
     st.subheader("Gmail 이메일 발송")
     recipient_email = st.text_input("수신자 이메일", placeholder="example@gmail.com")
     if _gmail_user and _gmail_pw:
-        st.success("Gmail 계정 자동 로드됨", icon="x1F4E7")
+        st.success("Gmail 계정 자동 로드됨", icon="📧")
         gmail_sender = _gmail_user
         gmail_app_pw = _gmail_pw
     else:
